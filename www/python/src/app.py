@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import flask
+from flask import Flask, request, Response
 import mwoauth
 import os
 import yaml
@@ -96,3 +96,9 @@ def logout():
     """Log the user out by clearing their session."""
     flask.session.clear()
     return flask.redirect(flask.url_for('index'))
+
+@app.route('/git-pull', methods=['POST'])
+def respond():
+    print(request.json);
+    os.system('git pull')
+    return Response(status=200)
