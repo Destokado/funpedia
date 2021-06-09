@@ -1,0 +1,6 @@
+GREETING: Goodnight moon!
+SECRET_KEY: $(python -c "import os; print repr(os.urandom(24))")
+APPLICATION_ROOT: /$(id -un | sed 's/^tools\.//')/
+OAUTH_MWURI: https://meta.wikimedia.org/w/index.php
+CONSUMER_KEY: 4504a49cff1a77a317fc47bd8e9fc030
+CONSUMER_SECRET: 05e565242ee135a8cb323b0f78f59969b4731fa9
