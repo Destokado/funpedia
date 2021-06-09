@@ -23,9 +23,14 @@ import mwoauth
 import os
 import yaml
 
-application = Dash(__name__)
+#application = Dash(__name__)
+#if __name__ == '__main__':
+#    application.run_server(debug=True)
+
+application = flask.Flask(__name__)
+
 if __name__ == '__main__':
-    application.run_server(debug=True)
+    application.run_server(host='0.0.0.0', threaded=True,debug=True)
 
 
 # Load configuration from YAML file
@@ -39,7 +44,7 @@ application.config.update(
 application.route('/')
 def index():
 
-    return flask.redirect('/home')
+    return flask.redirect('/')
 
 #@app.route('/')
 #def index():
@@ -118,4 +123,4 @@ def handling_page_not_found(e):
 
 
 #APPS
-from home import *
+from view.home import *
