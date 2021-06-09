@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, '/www/python/src')
 
 # SERVER
-from app import application
+from app import app
 
 # Dash
 from dash import Dash
