@@ -1,0 +1,5 @@
+pip install -r www/python/src/requirements.txt --> Keep updating the file with the names
+
+
+#Restart the webbservice
+webservice restart (in putty)
