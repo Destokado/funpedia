@@ -87,7 +87,7 @@ footbar = html.Div([
 title_addenda = " -Funpedia"
 
 ### DASH APP
-home_app = Dash(__name__, server=application, url_base_pathname="/", external_stylesheets=external_stylesheets)
+home_app = Dash(__name__, server=app, url_base_pathname="/", external_stylesheets=external_stylesheets)
 home_app.config['suppress_callback_exceptions'] = True
 
 ### APP_LAYOUT
