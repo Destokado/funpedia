@@ -18,29 +18,38 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 import flask
 from flask import request, Response
+from dash import Dash
 import mwoauth
 import os
 import yaml
 
-
-app = flask.Flask(__name__)
+application = Dash(__name__)
+if __name__ == '__main__':
+    application.run_server(debug=True)
 
 
 # Load configuration from YAML file
 __dir__ = os.path.dirname(__file__)
-app.config.update(
+application.config.update(
     yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
 
-@app.route('/')
+
+
+application.route('/')
 def index():
-    greeting = app.config['GREETING']
-    username = flask.session.get('username', None)
-    return flask.render_template(
-        'index.html', username=username, greeting=greeting)
+
+    return flask.redirect('/home')
+
+#@app.route('/')
+#def index():
+#    greeting = app.config['GREETING']
+#    username = flask.session.get('username', None)
+#    return flask.render_template(
+#        'index.html', username=username, greeting=greeting)
 
 
-@app.route('/login')
+@application.route('/login')
 def login():
     """Initiate an OAuth login.
     
@@ -48,12 +57,12 @@ def login():
     user to the MediaWiki server to sign the request.
     """
     consumer_token = mwoauth.ConsumerToken(
-        app.config['CONSUMER_KEY'], app.config['CONSUMER_SECRET'])
+        application.config['CONSUMER_KEY'], application.config['CONSUMER_SECRET'])
     try:
         redirect, request_token = mwoauth.initiate(
-            app.config['OAUTH_MWURI'], consumer_token)
+            application.config['OAUTH_MWURI'], consumer_token)
     except Exception:
-        app.logger.exception('mwoauth.initiate failed')
+        application.logger.exception('mwoauth.initiate failed')
         return flask.redirect(flask.url_for('index'))
     else:
         flask.session['request_token'] = dict(zip(
@@ -61,7 +70,7 @@ def login():
         return flask.redirect(redirect)
 
 
-@app.route('/oauth-callback')
+@application.route('/oauth-callback')
 def oauth_callback():
     """OAuth handshake callback."""
     if 'request_token' not in flask.session:
@@ -69,19 +78,19 @@ def oauth_callback():
         return flask.redirect(flask.url_for('index'))
 
     consumer_token = mwoauth.ConsumerToken(
-        app.config['CONSUMER_KEY'], app.config['CONSUMER_SECRET'])
+        application.config['CONSUMER_KEY'], application.config['CONSUMER_SECRET'])
 
     try:
         access_token = mwoauth.complete(
-            app.config['OAUTH_MWURI'],
+            application.config['OAUTH_MWURI'],
             consumer_token,
             mwoauth.RequestToken(**flask.session['request_token']),
             flask.request.query_string)
 
         identity = mwoauth.identify(
-            app.config['OAUTH_MWURI'], consumer_token, access_token)    
+            application.config['OAUTH_MWURI'], consumer_token, access_token)
     except Exception:
-        app.logger.exception('OAuth authentication failed')
+        application.logger.exception('OAuth authentication failed')
     
     else:
         flask.session['access_token'] = dict(zip(
@@ -91,14 +100,22 @@ def oauth_callback():
     return flask.redirect(flask.url_for('index'))
 
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     """Log the user out by clearing their session."""
     flask.session.clear()
     return flask.redirect(flask.url_for('index'))
 
-@app.route('/git-pull', methods=['POST'])
+@application.route('/git-pull', methods=['POST'])
 def respond():
     print(request.json);
     os.system('git pull')
     return Response(status=200)
+
+@application.errorhandler(404)
+def handling_page_not_found(e):
+    return "<h1>404</h1><p>The resource could not be found.</p>", 404
+
+
+#APPS
+from home import *
