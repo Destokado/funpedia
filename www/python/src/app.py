@@ -115,7 +115,6 @@ def logout():
 def respond():
     print(request.json);
     os.system('git pull')
-    os.system('webservice restart')
     return Response(status=200)
 
 @app.errorhandler(404)
