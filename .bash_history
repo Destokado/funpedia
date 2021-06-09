@@ -206,3 +206,42 @@ EOF
 
 pip install -r $HOME/www/python/src/requirements.txt
 exit
+#1623247368
+ls
+#1623247435
+vim $HOME/www/python/src/app.py
+#1623247633
+webservice --backend=kubernetes --canonical python3.7 restart
+#1623248254
+webservice --backend=kubernetes --canonical python3.7 restart
+#1623248314
+webservice --backend=kubernetes python3.7 shell
+#1623248433
+touch $HOME/www/python/src/config.yaml
+#1623248454
+chmod u=rw,go= $HOME/www/python/src/config.yaml
+#1623248461
+cat > $HOME/www/python/src/config.yaml << EOF
+GREETING: Goodnight moon!
+EOF
+
+#1623248481
+webservice restart
+#1623248511
+webservice --backend=kubernetes python3.7 shell
+#1623248972
+mkdir $HOME/www/python/src/templates
+#1623248980
+edit $HOME/www/python/src/templates/index.html
+#1623249926
+webservice restart
+#1623250017
+git add --all
+#1623250060
+git commit -m "My first flask app"
+#1623250121
+git push origin master
+#1623250128
+git push
+#1623250148
+git push
