@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, '/www/python/src')
 
 # SERVER
-from app import app
+from app import app as application
 
 # Dash
 from dash import Dash
@@ -24,13 +24,13 @@ navbar = html.Div([
                                               href="https://funpedia.toolforge.org/editing_buddy/"),
                          dbc.DropdownMenuItem("Storytelling", href="https://funpedia.toolforge.org/storytelling/"),
                          ],
-                        label="Social",
+                        label="Social Gamification",
                         nav=True,
                     ),
                     dbc.DropdownMenu(
                         [dbc.DropdownMenuItem("Duel", href="https://funpedia.toolforge.org/duel/")
                          ],
-                        label="Content",
+                        label="Content Gamification",
                         nav=True,
                     ),
                     html.A(
@@ -67,6 +67,7 @@ footbar = html.Div([
                             style={'color': '#8C8C8C'}),
                 dbc.NavLink("View Source", href="https://github.com/Destokado/funpedia", target="_blank",style={'color': '#8C8C8C'}),
                 dbc.NavLink("Author", href="https://meta.wikimedia.org/wiki/User:Destokado", target="_blank",style={'color': '#8C8C8C'}),
+
             ], className="ml-2"), style={'textAlign': 'center', 'display': 'inline-block', 'width': '60%'}),
 
     html.Br(),
@@ -78,10 +79,24 @@ footbar = html.Div([
         html.A(html.Img(src='https://upload.wikimedia.org/wikipedia/commons/c/c5/Toolforge_logo.svg',
                         height="35px"), href='https://wikitech.wikimedia.org/wiki/Portal:Toolforge', target="_blank",
                style={'display': 'inline-block'}),
+        html.Br(),
+
+        html.P('Added to the ', style={'display': 'inline-block'}),
+        html.A(' Open Gamification Code of Ethics', href='https://ethics.gamified.uk?ref=b400', target="_blank",
+                style={'display': 'inline-block'}),
+
+        html.P('.', style={'display': 'inline-block', 'margin-right': "5px"}),
+        html.A(html.Img(src='https://ethics.gamified.uk/assets/ogce-badge-400.png',
+
+                        height="35px"), href='https://ethics.gamified.uk?ref=b400', target="_blank",
+
+               style={'display': 'inline-block'}),
 
     ], style={'textAlign': 'right'}
     ),
     html.Br(),
+
+
 ])
 
 title_addenda = " -Funpedia"
