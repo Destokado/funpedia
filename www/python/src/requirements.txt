@@ -9,3 +9,4 @@ dash_bootstrap_components
 pywikibot
 pymysql
 mwparserfromhell>=0.5.0
+
