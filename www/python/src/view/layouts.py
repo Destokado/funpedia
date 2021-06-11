@@ -116,7 +116,7 @@ namespace_picker_multi = html.Div([
             dcc.Dropdown(
                 id='namespaces',
                 options=[{'label': k, 'value': v} for k,v in namespaces_dict.items()],
-                value=[0,4],
+                value=0,
                 multi=True,
                 style={'width': '190px'}
             ), style={'display': 'inline-block', 'width': '200px'}),

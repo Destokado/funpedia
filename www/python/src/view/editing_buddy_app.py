@@ -8,8 +8,7 @@ from model.buddy_model import get_editing_buddy
 from app import app as application
 # Dash
 from dash import Dash, no_update
-from dash.dependencies import Input, Output
-from dash.exceptions import PreventUpdate
+from dash.dependencies import Input, Output, State
 # Pandas
 import pandas as pd
 ##Assets
@@ -37,7 +36,7 @@ buddy_app.layout = html.Div([
             id='username',
             type='text',
             debounce=True,
-            #required=True,
+            # required=True,
             placeholder='Enter your username here',
             style={'width': '190px'}
         ),
@@ -54,7 +53,7 @@ buddy_app.layout = html.Div([
             type='text',
             placeholder='Enter the language code here',
             debounce=True,
-            #required=True,
+            # required=True,
             style={'width': '190px'}
         ),
     ),
@@ -73,24 +72,31 @@ buddy_app.layout = html.Div([
 
 
 ###########CALLBACKS###############
-clicks=0
 @buddy_app.callback(
     Output('table', 'children'),
-    Output('err', 'childen'),
-    inputs=[Input('username', 'value'), Input('languagecode', 'value'), Input('namespaces', 'values'),Input('button','n_clicks')],
+    Output('err', 'children'),
+    [Input('button', 'n_clicks')],
+    state=[State('username', 'value'), State('languagecode', 'value'), State('namespaces', 'value')],
     prevent_initial_call=True)
-def build_table(username, languagecode, namespaces,n_clicks):
-    if n_clicks is None or username =="" or languagecode=="":
-        raise PreventUpdate
+def build_table(n_clicks, username, languagecode, namespaces):
+    print(n_clicks, username, languagecode, namespaces)
 
-    try:
-        data = get_editing_buddy(username, languagecode.lower(), namespaces)
-    except Exception:
-        return no_update, 'No data for User: {} in {}.wikipedia.org'.format(username, languagecode)
-    print(data)
-    dataframe = pd.DataFrame(data, columns=['User', 'Coincidences']).sort_values('Coincidences', ascending=False)
+    if username is None or languagecode is None or namespaces is None:
+        return no_update, 'Fill all the fields before querying'
+    # try:
+    data = get_editing_buddy(username, languagecode.lower(), namespaces)
+    # except Exception:
+    #    return no_update, 'No data for User: {} in {}.wikipedia.org in namespaces {}'.format(username, languagecode,
+    # namespaces)
+    if (len(data) == 0):
+        return no_update, 'No data for User: {} in {}.wikipedia.org in namespace/s {}'.format(username, languagecode,
+                                                                                             namespaces)
 
-    return generate_table(dataframe)
+    dataframe = pd.DataFrame(data, columns=['User', 'Coincidences']).sort_values('Coincidences', ascending=False).head(
+        10)
+    print(dataframe)
+
+    return generate_table(dataframe), ""
 
 
 def generate_table(dataframe, max_rows=10):

@@ -6,7 +6,7 @@ from pywikibot import Site, User, APISite
 ## Function to get the editing buddy of a username and a language edition given a username and a langcode
 #
 #  Returns the editors the user has coincided the most in the pages of the last 100 edits
-def get_editing_buddy(username, langcode,namespaces):
+def get_editing_buddy(username, langcode,namespaces =[0]):
     # Get the last 100 edits of that user
     # Get the page_id of each edit
     # Get the last 100 editors of that page
