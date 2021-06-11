@@ -41,10 +41,15 @@ app.config.update(
 
 
 
-app.route('/')
-def index():
-
-    return flask.redirect('/')
+#@app.route('/')
+#def index():
+#
+#    return flask.redirect('/')
+#
+#@app.route('/editing_buddy')
+#def buddy():
+#
+#    return flask.redirect('/editing_buddy')
 
 #@app.route('/')
 #def index():
@@ -124,3 +129,4 @@ def handling_page_not_found(e):
 
 #APPS
 from view.home import *
+from view.editing_buddy_app import *
