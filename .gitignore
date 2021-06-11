@@ -239,3 +239,6 @@ _output
 *.log
 *.log.*
 *.sig
+*.lwp
+*.ctrl
+www/python/src/model/apicache-py3/
