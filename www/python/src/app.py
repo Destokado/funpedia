@@ -41,15 +41,15 @@ app.config.update(
 
 
 
-#@app.route('/')
-#def index():
-#
-#    return flask.redirect('/')
-#
-#@app.route('/editing_buddy')
-#def buddy():
-#
-#    return flask.redirect('/editing_buddy')
+@app.route('/')
+def index():
+
+    return flask.redirect(flask.url_for('index'))
+
+@app.route('/editing_buddy')
+def buddy():
+
+    return flask.redirect(flask.url_for('buddy'))
 
 #@app.route('/')
 #def index():
