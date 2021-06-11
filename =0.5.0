@@ -1,0 +1,4 @@
+Collecting mwparserfromhell
+  Downloading mwparserfromhell-0.6.2-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl (177 kB)
+Installing collected packages: mwparserfromhell
+Successfully installed mwparserfromhell-0.6.2
