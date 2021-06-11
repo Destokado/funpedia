@@ -1,7 +1,6 @@
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_bootstrap_components as dbc
-
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 navbar = html.Div([
@@ -91,3 +90,35 @@ footbar = html.Div([
 ])
 
 title_addenda = " -Funpedia"
+
+language_picker_multi = html.Div([])
+
+namespaces_dict = {
+    "Article (0)": 0, "Talk (0)": 1,
+    "User (2)": 2, "User talk (3)": 3,
+    "Wikipedia (4)": 4, "Wikipedia talk (5)": 5,
+    "File (6)": 6, "File talk (7)": 7,
+    "MediaWiki (8)": 8, "MediaWiki talk (9)": 9,
+    "Template(10)": 10, "Template talk (11)": 11,
+    "Help (12)": 12, "Help talk (12)": 12,
+    "Category (14)": 14, "Category talk (14)": 15,
+    "Portal (11)": 100, "Portal talk (101)": 101,
+    "Draft (118)": 118, "Draft talk (119)": 119,
+    "TimedText (710)": 710, "TimedText talk (711)": 711,
+    "Module (828)": 828, "Module talk (829)": 829}
+
+namespace_picker_multi = html.Div([
+        html.Div(
+            html.P('Select the namespaces '),
+            style={'display': 'inline-block', 'width': '200px'}),
+        html.Br(),
+        html.Div(
+            dcc.Dropdown(
+                id='namespaces',
+                options=[{'label': k, 'value': v} for k,v in namespaces_dict.items()],
+                value=[0,4],
+                multi=True,
+                style={'width': '190px'}
+            ), style={'display': 'inline-block', 'width': '200px'}),
+
+])
