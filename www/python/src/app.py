@@ -41,15 +41,15 @@ app.config.update(
 
 
 
-#@app.route('/')
+#@app.route("/")
 #def index():
-#
-#    return flask.redirect(flask.url_for('index'))
+#    print('index has been called')
+#    return flask.redirect("/")
 
-@app.route('/editing_buddy')
-def buddy():
-
-    return flask.redirect(flask.url_for('buddy'))
+#@app.route("/editing_buddy/")
+#def buddy():
+#    print('buddy has been called')
+#    return flask.redirect(flask.url_for("buddy"))
 
 #@app.route('/')
 #def index():
@@ -59,7 +59,7 @@ def buddy():
 #        'index.html', username=username, greeting=greeting)
 
 
-@app.route('/login')
+@app.route('/login/')
 def login():
     """Initiate an OAuth login.
     
@@ -80,7 +80,7 @@ def login():
         return flask.redirect(redirect)
 
 
-@app.route('/oauth-callback')
+@app.route('/oauth-callback/')
 def oauth_callback():
     """OAuth handshake callback."""
     if 'request_token' not in flask.session:
@@ -110,13 +110,13 @@ def oauth_callback():
     return flask.redirect(flask.url_for('index'))
 
 
-@app.route('/logout')
+@app.route('/logout/')
 def logout():
     """Log the user out by clearing their session."""
     flask.session.clear()
     return flask.redirect(flask.url_for('index'))
 
-@app.route('/git-pull', methods=['POST'])
+@app.route('/git-pull/', methods=['POST'])
 def respond():
     print(request.json);
     os.system('git pull')
