@@ -130,3 +130,4 @@ def handling_page_not_found(e):
 #APPS
 from view.home import *
 from view.editing_buddy_app import *
+from view.layouts import *
