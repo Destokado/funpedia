@@ -10,27 +10,7 @@ app = flask.Flask(__name__)
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', threaded=True, debug=True)
 
-
-
-
-@app.route("/")
-def index():
-   print('index has been called')
-   return flask.redirect("/")
-
-@app.route("/editing_buddy/")
-def buddy():
-   print('buddy has been called')
-   return flask.redirect("/editing_buddy/")
-
-# @app.route('/')
-# def index():
-#    greeting = app.config['GREETING']
-#    username = flask.session.get('username', None)
-#    return flask.render_template(
-#        'index.html', username=username, greeting=greeting)
-
-
+####APP.ROUTE####
 @app.route('/login/')
 def login():
     """Initiate an OAuth login.
