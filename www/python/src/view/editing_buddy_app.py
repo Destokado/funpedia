@@ -71,7 +71,7 @@ buddy_app.layout = html.Div([
 ], className="container")
 
 
-###########CALLBACKS###############
+##########CALLBACKS###############
 @buddy_app.callback(
     Output('table', 'children'),
     Output('err', 'children'),

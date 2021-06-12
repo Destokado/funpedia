@@ -44,3 +44,4 @@ home_app.layout = html.Div([
     footbar,
 
 ], className="container")
+
