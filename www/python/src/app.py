@@ -1,37 +1,14 @@
-# -*- coding: utf-8 -*-
-#
-# This file is part of the Toolforge Flask + OAuth WSGI tutorial
-#
-# Copyright (C) 2017 Bryan Davis and contributors
-#
-# This program is free software: you can redistribute it and/or modify it
-# under the terms of the GNU General Public License as published by the Free
-# Software Foundation, either version 3 of the License, or (at your option)
-# any later version.
-#
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-# more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program.  If not, see <http://www.gnu.org/licenses/>.
-import flask
-from flask import request, Response
-from dash import Dash
-import mwoauth
 import os
-import yaml
 
-#application = Dash(__name__)
-#if __name__ == '__main__':
-#    application.run_server(debug=True)
+import flask
+import mwoauth
+import yaml
+from flask import request, Response
 
 app = flask.Flask(__name__)
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', threaded=True, debug=True)
-
 
 # Load configuration from YAML file
 __dir__ = os.path.dirname(__file__)
@@ -39,20 +16,18 @@ app.config.update(
     yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
 
+@app.route("/")
+def index():
+   print('index has been called')
+   return flask.redirect("/")
 
+@app.route("/editing_buddy/")
+def buddy():
+   print('buddy has been called')
+   return flask.redirect(flask.url_for("buddy"))
 
-#@app.route("/")
-#def index():
-#    print('index has been called')
-#    return flask.redirect("/")
-
-#@app.route("/editing_buddy/")
-#def buddy():
-#    print('buddy has been called')
-#    return flask.redirect(flask.url_for("buddy"))
-
-#@app.route('/')
-#def index():
+# @app.route('/')
+# def index():
 #    greeting = app.config['GREETING']
 #    username = flask.session.get('username', None)
 #    return flask.render_template(
@@ -101,7 +76,7 @@ def oauth_callback():
             app.config['OAUTH_MWURI'], consumer_token, access_token)
     except Exception:
         app.logger.exception('OAuth authentication failed')
-    
+
     else:
         flask.session['access_token'] = dict(zip(
             access_token._fields, access_token))
@@ -116,18 +91,20 @@ def logout():
     flask.session.clear()
     return flask.redirect(flask.url_for('index'))
 
+
 @app.route('/git-pull/', methods=['POST'])
 def respond():
     print(request.json);
     os.system('git pull')
     return Response(status=200)
 
+
 @app.errorhandler(404)
 def handling_page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
 
-#APPS
+# APPS
 from view.home import *
 from view.editing_buddy_app import *
 from view.layouts import *
