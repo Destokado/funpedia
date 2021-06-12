@@ -1,6 +1,6 @@
 import sys
 
-#sys.path.insert(0, '/www/python/src')
+sys.path.insert(0, '/www/python/src')
 
 from model.buddy_model import get_editing_buddy
 
@@ -14,13 +14,13 @@ import pandas as pd
 ##Assets
 from view.layouts import *
 
-buddy_app = Dash(__name__, server=application, url_base_pathname="/editing_buddy/",
-                 external_stylesheets=external_stylesheets)
-buddy_app.config['suppress_callback_exceptions'] = True
-title = 'Editing Buddy '
-buddy_app.title = title + title_addenda
-
-buddy_app.layout = html.Div([
+#buddy_app = Dash(__name__, server=application, url_base_pathname="/editing_buddy/",
+#                 external_stylesheets=external_stylesheets)
+#buddy_app.config['suppress_callback_exceptions'] = True
+#title = 'Editing Buddy '
+#buddy_app.title = title + title_addenda
+#
+#buddy_app.layout = html.Div([
     navbar,
     html.H3(title, style={'textAlign': 'center'}),
     dcc.Markdown(
