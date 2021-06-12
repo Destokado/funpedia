@@ -1,6 +1,6 @@
 import sys
 
-sys.path.insert(0, '/www/python/src')
+#sys.path.insert(0, '/www/python/src')
 
 from model.buddy_model import get_editing_buddy
 
