@@ -5,7 +5,13 @@ import mwoauth
 import yaml
 from flask import request, Response
 
+
+
 app = flask.Flask(__name__)
+# Load configuration from YAML file
+__dir__ = os.path.dirname(__file__)
+app.config.update(
+    yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', threaded=True, debug=True)
