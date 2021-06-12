@@ -16,15 +16,15 @@ app.config.update(
     yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
 
-@app.route("/")
+app.route("/")
 def index():
    print('index has been called')
    return flask.redirect("/")
 
-@app.route("/editing_buddy/")
+app.route("/editing_buddy/")
 def buddy():
    print('buddy has been called')
-   return flask.redirect(flask.url_for("buddy"))
+   return flask.redirect("/editing_buddy/")
 
 # @app.route('/')
 # def index():
