@@ -16,15 +16,15 @@ if __name__ == '__main__':
 #    yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
 
-app.route("/")
-def index():
-   print('index has been called')
-   return flask.redirect("/")
-
-app.route("/editing_buddy/")
-def buddy():
-   print('buddy has been called')
-   return flask.redirect("/editing_buddy/")
+#app.route("/")
+#def index():
+#   print('index has been called')
+#   return flask.redirect("/")
+#
+#app.route("/editing_buddy/")
+#def buddy():
+#   print('buddy has been called')
+#   return flask.redirect("/editing_buddy/")
 
 # @app.route('/')
 # def index():
