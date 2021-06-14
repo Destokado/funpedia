@@ -6,6 +6,7 @@ import sys
 sys.path.insert(0, '/www/python/src')
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_scripts = ['https://wdo-dev.wmcloud.org/assets/gtag.js']
 navbar = html.Div([
     html.Br(),
     dbc.Navbar(
@@ -112,7 +113,7 @@ namespaces_dict = {
 
 namespace_picker_multi = html.Div([
         html.Div(
-            html.P('Select the namespaces '),
+            html.P('Select the namespaces to include in your search '),
             style={'display': 'inline-block', 'width': '200px'}),
         html.Br(),
         html.Div(
@@ -121,7 +122,7 @@ namespace_picker_multi = html.Div([
                 options=[{'label': k, 'value': v} for k,v in namespaces_dict.items()],
                 value=0,
                 multi=True,
-                style={'width': '190px'}
-            ), style={'display': 'inline-block', 'width': '200px'}),
+                style={'width': '500px'}
+            ), style={'display': 'inline-block', 'width': '500px'}),
 
 ])

@@ -13,6 +13,8 @@ def get_editing_buddy(username, langcode,namespaces =[0]):
     # For each editor, get the last 100 edits
     # For each edit, get the page_id
     # See if that page_id is the same as one of the first user
+    username = username.capitalize()
+    langcode = langcode.lower()
     site = Site(langcode, 'wikipedia')
     user = User(site, username)
     contributed_pages = set()

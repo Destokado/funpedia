@@ -15,7 +15,7 @@ import pandas as pd
 from view.layouts import *
 
 buddy_app = Dash(__name__, server=application, url_base_pathname="/editing_buddy/",
-                 external_stylesheets=external_stylesheets)
+                 external_stylesheets=external_stylesheets, external_scripts=external_scripts)
 buddy_app.config['suppress_callback_exceptions'] = True
 title = 'Editing Buddy '
 buddy_app.title = title + title_addenda
@@ -24,9 +24,10 @@ buddy_app.layout = html.Div([
     navbar,
     html.H3(title, style={'textAlign': 'center'}),
     dcc.Markdown(
-        "This page allows you to find the Editing Buddy of a Wikipedia user by entering the username and the Wikipedia Language edition and the namespaces where to look for edits.  "
-        "It looks for the contributors of the pages edited by the user in their last 100 edits in the selected namespaces,"),
-    dcc.Markdown("* **What is your editing Buddy?**"),
+        "This page allows you to find the Editing Buddy of a Wikipedia user by entering the username and the Wikipedia Language edition and the namespaces where to look for edits.  \n"
+        "Your **Editing Buddy** is a person that has edited in, at any given time, the same pages as you have in your last 100 contributions."),
+    dcc.Markdown("* **Who is your editing Buddy?**"),
+    html.Br(),
     html.Div(
         html.P('Insert a username'),
         style={'display': 'inline-block', 'width': '200px'}),
@@ -38,13 +39,13 @@ buddy_app.layout = html.Div([
             debounce=True,
             # required=True,
             placeholder='Enter your username here',
-            style={'width': '190px'}
+            style={'display': 'inline-block','width': '190px'}
         ),
     ),
     html.Br(),
     html.Div(
         html.P(
-            'Insert the language code of the Wikipedia the user belongs to ( en for English, es for Spanish, ca for Catalan, etc.)'),
+            'Insert the language code of the Wikipedia the user belongs to (en for English, es for Spanish, ca for Catalan, etc.)'),
         style={'display': 'inline-block', 'width': '600px'}),
     html.Br(),
     html.Div(
@@ -54,16 +55,19 @@ buddy_app.layout = html.Div([
             placeholder='Enter the language code here',
             debounce=True,
             # required=True,
-            style={'width': '190px'}
+            style={'display': 'inline-block','width': '190px'}
         ),
     ),
     html.Br(),
     namespace_picker_multi,
+    html.Br(),
     html.Div(
         html.A(html.Button('Query Results!'),
                id='button'),
         style={'display': 'inline-block', 'width': '200px'}),
-    html.Table(id='table'),
+    html.Br(),
+
+    dcc.Loading(children=[html.Table(id='table')],type='default'),
     html.P(id='err', style={'color': 'red'}),
     html.Br(),
     footbar
@@ -83,11 +87,11 @@ def build_table(n_clicks, username, languagecode, namespaces):
 
     if username is None or languagecode is None or namespaces is None:
         return no_update, 'Fill all the fields before querying'
-    # try:
-    data = get_editing_buddy(username, languagecode.lower(), namespaces)
-    # except Exception:
-    #    return no_update, 'No data for User: {} in {}.wikipedia.org in namespaces {}'.format(username, languagecode,
-    # namespaces)
+    try:
+        data = get_editing_buddy(username, languagecode.lower(), namespaces)
+    except Exception:
+        return no_update, 'No data for User: {} in {}.wikipedia.org in namespaces {}'.format(username, languagecode,
+     namespaces)
     if (len(data) == 0):
         return no_update, 'No data for User: {} in {}.wikipedia.org in namespace/s {}'.format(username, languagecode,
                                                                                              namespaces)
