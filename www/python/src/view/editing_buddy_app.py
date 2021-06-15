@@ -84,7 +84,7 @@ def build_table(n_clicks, username, languagecode, namespaces):
     if username is None or languagecode is None or namespaces is None:
         return no_update, 'Fill all the fields before querying'
     # try:
-    data = get_editing_buddy(username, languagecode.lower(), namespaces)
+    data = get_editing_buddy(username.capitalize(), languagecode.lower(), namespaces)
     # except Exception:
     #    return no_update, 'No data for User: {} in {}.wikipedia.org in namespaces {}'.format(username, languagecode,
     # namespaces)
