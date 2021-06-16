@@ -5,7 +5,7 @@ import sys
 
 sys.path.insert(0, '/www/python/src')
 
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_stylesheets = [dbc.themes.LITERA]
 external_scripts = ['https://wdo-dev.wmcloud.org/assets/gtag.js']
 navbar = html.Div([
     html.Br(),
