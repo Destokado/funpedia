@@ -5,7 +5,7 @@ import sys
 
 sys.path.insert(0, '/www/python/src')
 
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_stylesheets = [dbc.themes.LITERA]
 navbar = html.Div([
     html.Br(),
     dbc.Navbar(

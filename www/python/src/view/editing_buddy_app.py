@@ -32,7 +32,7 @@ buddy_app.layout = html.Div([
         style={'display': 'inline-block', 'width': '200px'}),
     html.Br(),
     html.Div(
-        dcc.Input(
+        dbc.Input(
             id='username',
             type='text',
             debounce=True,
@@ -63,8 +63,8 @@ buddy_app.layout = html.Div([
         html.A(html.Button('Query Results!'),
                id='button'),
         style={'display': 'inline-block', 'width': '200px'}),
-    html.Table(id='table'),
-    html.P(id='err', style={'color': 'red'}),
+    html.Div(dbc.Spinner(children=[html.Table(id='table')], type='default')),
+    dbc.Alert(id='err', style={'color': 'red'}),
     html.Br(),
     footbar
 
