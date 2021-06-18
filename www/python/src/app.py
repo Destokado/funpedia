@@ -90,4 +90,7 @@ def handling_page_not_found(e):
 # APPS
 from view.home import *
 from view.editing_buddy_app import *
+from view.storytelling_app import *
+from view.duel_app import *
+# Others
 from view.layouts import *
