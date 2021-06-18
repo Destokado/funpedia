@@ -1,9 +1,11 @@
 import sys
 from datetime import datetime
 
+import dash_table
 from dash.dependencies import Input, State, Output
 
-from www.python.src.model.duel_model import insert_into
+from www.python.src.model.duel_model import insert_into, select_duels
+from www.python.src.view.layouts import generate_table
 
 sys.path.insert(0, '/www/python/src')
 
@@ -12,6 +14,7 @@ from app import app as application
 # Dash
 from dash import Dash
 # Pandas
+import pandas as pd
 ##Assets
 from view.layouts import *
 from model.duel_model import *
@@ -125,8 +128,8 @@ duel_app.layout = html.Div([
         style={'display': 'inline-block', 'width': '600px'}),
     html.Br(),
     html.Div([
-        dcc.Input(id="start",placeholder='Start date (DD/MM/YYYY)'),
-        dcc.Input(id="end",placeholder="End date (DD/MM/YYYY)")]
+        dcc.Input(id="start", placeholder='Start date (DD/MM/YYYY)'),
+        dcc.Input(id="end", placeholder="End date (DD/MM/YYYY)")]
     ),
     html.Div(
         html.A(html.Button('START DUEL'),
@@ -160,19 +163,36 @@ def regiter_duel(n_clicks, username, languagecode, rival_username, rival_languag
             is None or metric is None or goal is None or start is None or end is None:
         return 'Fill all the required fields before querying (all excpet namespaces)', True
 
-    columns = ["user_name", "user_wiki", "rival_name", "rival_wiki", "metric", "goal", "namespaces", "start_date",
+    columns = ["user_name", "user_wiki", "rival_name", "rival_wiki", "metric", "goal", "start_date",
                "end_date"]
-    date_start = datetime.strptime(start,"%d/%m/%Y").timestamp()
-    date_end = datetime.strptime(end,"%d/%m/%Y").timestamp()
-    row = [username, languagecode, rival_username, rival_languagecode, metric, goal, date_start,
+    date_start = datetime.strptime(start, "%d/%m/%Y").timestamp()
+    date_end = datetime.strptime(end, "%d/%m/%Y").timestamp()
+    row = [username, languagecode, rival_username, rival_languagecode, metric[0], goal, date_start,
            date_end]
     if (namespaces is not None):
         columns.append("namespaces")
-        row.append(namespaces)
+        if (not isinstance(namespaces,int)):
+            row.append(",".join(namespaces))
+        else:
+            row.append(str(namespaces))
     try:
-        inserted = insert_into("duels", columns, row)
+        inserted = insert_into("duels", columns, tuple(row))
         print(inserted)
     except Exception:
         return "Something went wrong",True
 
-    return "Inserted {} rows.".format(inserted), True
+    return "Inserted {} row in the database.".format(inserted), True
+
+
+@duel_app.callback(Output('current_duels','children'), Input('button_start', 'n_clicks'))
+def fetch_duel(n_clicks):
+
+    data = select_duels(['user_name', 'user_wiki', 'rival_name', 'rival_wiki', 'metric', 'goal', 'start_date',
+                        'end_date', 'namespaces'])
+    df = pd.DataFrame(data, columns=['Username', 'Wikipedia', 'Rival', 'Rival Wikipedia', 'Metric', 'Goal',
+                                            'Start date', 'End date','Namespaces'])
+    print(df.head())
+    df['Start date'] = df['Start date'].apply( lambda x:datetime.utcfromtimestamp(x).date().strftime("%d/%m/%Y"))
+    df['End date'] = df['End date'].apply( lambda x:datetime.utcfromtimestamp(x).date().strftime("%d/%m/%Y"))
+    return dash_table.DataTable(columns=[{"name": i, "id": i} for i in df.columns],
+    data=df.to_dict('records'),)
