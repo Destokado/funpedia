@@ -4,7 +4,7 @@ from datetime import datetime
 import dash_table
 from dash.dependencies import Input, State, Output
 
-from www.python.src.model.duel_model import insert_into, select_duels
+
 
 sys.path.insert(0, '/www/python/src')
 
@@ -16,7 +16,7 @@ from dash import Dash
 import pandas as pd
 ##Assets
 from view.layouts import *
-from model.duel_model import *
+from model.duel_model import insert_into, select_duels
 
 metrics_dict = {'Edit Count': 'edit_count'}
 def fetch_duel():
