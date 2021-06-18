@@ -6,9 +6,7 @@ import sys
 sys.path.insert(0, '/www/python/src')
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
-navbar = html.Div([
-    html.Br(),
-    dbc.Navbar(
+navbar = dbc.Navbar(
         [dbc.Collapse(
             dbc.Nav(
                 [
@@ -26,18 +24,7 @@ navbar = html.Div([
                         label="Content Gamification",
                         nav=True,
                     ),
-                    html.A(
-                        # Use row and col to control vertical alignment of logo / brand
-                        dbc.Row(
-                            [
-                                dbc.Col(html.Img(src= 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png', height="35px")),
-                                #
-                            ],
-                            align="center",
-                            no_gutters=True,
-                        ),
-                        href="https://github.com/Destokado/funpedia", target="_blank",
-                        style={'margin-left': "5px"}),
+
                 ], className="ml-auto", navbar=True),
             id="navbar-collapse2",
             navbar=True,
@@ -46,8 +33,8 @@ navbar = html.Div([
         color="#FFEACA",
         dark=False,
         className="ml-2",
-    ),
-])
+        sticky='top'
+    )
 footbar = html.Div([
     html.Br(),
     html.Br(),
@@ -125,3 +112,15 @@ namespace_picker_multi = html.Div([
             ), style={'display': 'inline-block', 'width': '200px'}),
 
 ])
+
+def generate_table(dataframe, max_rows=10):
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in dataframe.columns])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+            ]) for i in range(min(len(dataframe), max_rows))
+        ])
+    ])

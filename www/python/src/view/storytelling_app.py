@@ -23,11 +23,11 @@ storytelling_app.title = title + title_addenda
 
 storytelling_app.layout = html.Div([
     navbar,
+    html.Br(),
     html.H3(title, style={'textAlign': 'center'}),
     html.Br(),
     #dcc.Markdown(children=get_content('ca','Usuari_Discussió:Bestiasonica')),
-    dash_dangerously_set_inner_html.DangerouslySetInnerHTML(get_content('ca','Usuari_Discussió:Bestiasonica')),
     #html.Div(children=get_content('ca','Usuari_Discussió:Bestiasonica')),
     html.Br(),
     footbar
-])
+],className="container")

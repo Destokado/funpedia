@@ -22,6 +22,7 @@ buddy_app.title = title + title_addenda
 
 buddy_app.layout = html.Div([
     navbar,
+    html.Br(),
     html.H3(title, style={'textAlign': 'center'}),
     dcc.Markdown(
         "This page allows you to find the Editing Buddy of a Wikipedia user by entering the username, the Wikipedia "
@@ -37,7 +38,7 @@ buddy_app.layout = html.Div([
             id='username',
             type='text',
             debounce=True,
-            # required=True,
+
             placeholder='Enter your username here',
             style={'width': '190px'}
         ),
@@ -54,7 +55,7 @@ buddy_app.layout = html.Div([
             type='text',
             placeholder='Enter the language code here',
             debounce=True,
-            # required=True,
+
             style={'width': '190px'}
         ),
     ),
@@ -64,8 +65,15 @@ buddy_app.layout = html.Div([
         html.A(html.Button('Query Results!'),
                id='button'),
         style={'display': 'inline-block', 'width': '200px'}),
-    html.Div(dbc.Spinner(children=[html.Table(id='table')], type='default')),
-    dbc.Alert(id='err', style={'color': 'red'}),
+    html.Br(),
+
+    dcc.Loading(children=[html.Table(id='table')], type='circle'),
+    #html.Div(dbc.Spinner(html.Table(id='table')),
+    html.Br(),
+
+    dbc.Alert(id='err', color="warning", dismissable=True, is_open=False),
+    html.Br(),
+
     html.Br(),
     footbar
 
@@ -76,6 +84,7 @@ buddy_app.layout = html.Div([
 @buddy_app.callback(
     Output('table', 'children'),
     Output('err', 'children'),
+    Output('err', 'is_open'),
     [Input('button', 'n_clicks')],
     state=[State('username', 'value'), State('languagecode', 'value'), State('namespaces', 'value')],
     prevent_initial_call=True)
@@ -83,7 +92,7 @@ def build_table(n_clicks, username, languagecode, namespaces):
     print(n_clicks, username, languagecode, namespaces)
 
     if username is None or languagecode is None or namespaces is None:
-        return no_update, 'Fill all the fields before querying'
+        return no_update, 'Fill all the fields before querying', True
     # try:
     data = get_editing_buddy(username.capitalize(), languagecode.lower(), namespaces)
     # except Exception:
@@ -91,23 +100,13 @@ def build_table(n_clicks, username, languagecode, namespaces):
     # namespaces)
     if (len(data) == 0):
         return no_update, 'No data for User: {} in {}.wikipedia.org in namespace/s {}'.format(username, languagecode,
-                                                                                             namespaces)
+                                                                                             namespaces),False
 
     dataframe = pd.DataFrame(data, columns=['User', 'Coincidences']).sort_values('Coincidences', ascending=False).head(
         10)
     print(dataframe)
 
-    return generate_table(dataframe), ""
+    return generate_table(dataframe), "",False
 
 
-def generate_table(dataframe, max_rows=10):
-    return html.Table([
-        html.Thead(
-            html.Tr([html.Th(col) for col in dataframe.columns])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(min(len(dataframe), max_rows))
-        ])
-    ])
+
