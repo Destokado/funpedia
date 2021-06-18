@@ -10,16 +10,29 @@ navbar = dbc.Navbar(
         [dbc.Collapse(
             dbc.Nav(
                 [
+                    html.A(
+                                # Use row and col to control vertical alignment of logo / brand
+                                dbc.Row(
+                                    [
+                                        dbc.Col(dbc.NavbarBrand("Funpedia", className="ml-2")),
+                                    ],
+                                    align="left",
+                                    no_gutters=True,
+
+
+                                ), href="/",
+
+                            ),
                     dbc.DropdownMenu(
                         [dbc.DropdownMenuItem("Find your Editing Buddy",
-                                              href="https://funpedia.toolforge.org/editing_buddy/"),
-                         dbc.DropdownMenuItem("Storytelling", href="https://funpedia.toolforge.org/storytelling/"),
+                                              href="/editing_buddy/",external_link=True,),
+                         dbc.DropdownMenuItem("Storytelling", href="/storytelling/",external_link=True,),
                          ],
                         label="Social Gamification",
                         nav=True,
                     ),
                     dbc.DropdownMenu(
-                        [dbc.DropdownMenuItem("Duel", href="https://funpedia.toolforge.org/duel/")
+                        [dbc.DropdownMenuItem("Duel", href="/duel/",external_link=True,)
                          ],
                         label="Content Gamification",
                         nav=True,
