@@ -24,8 +24,9 @@ buddy_app.layout = html.Div([
     navbar,
     html.H3(title, style={'textAlign': 'center'}),
     dcc.Markdown(
-        "This page allows you to find the Editing Buddy of a Wikipedia user by entering the username and the Wikipedia Language edition and the namespaces where to look for edits.  "
-        "It looks for the contributors of the pages edited by the user in their last 100 edits in the selected namespaces,"),
+        "This page allows you to find the Editing Buddy of a Wikipedia user by entering the username, the Wikipedia "
+        "Language edition and the namespaces where to look for edits.  "
+        "Your **Editing Buddy** is a contributor that has ever edited the same pages as you have. This applies to your last 100 edits."),
     dcc.Markdown("* **What is your editing Buddy?**"),
     html.Div(
         html.P('Insert a username'),

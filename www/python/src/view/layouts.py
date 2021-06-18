@@ -5,7 +5,7 @@ import sys
 
 sys.path.insert(0, '/www/python/src')
 
-external_stylesheets = [dbc.themes.LITERA]
+external_stylesheets = [dbc.themes.BOOTSTRAP]
 navbar = html.Div([
     html.Br(),
     dbc.Navbar(
@@ -43,7 +43,7 @@ navbar = html.Div([
             navbar=True,
         ),
         ],
-        color="white",
+        color="#FFEACA",
         dark=False,
         className="ml-2",
     ),
