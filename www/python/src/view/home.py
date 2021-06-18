@@ -25,7 +25,7 @@ home_app.layout = html.Div([
     html.Br(),
     html.Br(),
     html.Br(),
-    html.H2(html.B('Welcome to FUNPEDIA'), style={'textAlign': 'center', 'font-weight': 'bold'}),
+    html.H2(html.B(' FUNPEDIA'), style={'textAlign': 'center', 'font-weight': 'bold','color':'#FFBD59'}),
     html.Div(
         dcc.Markdown('''
     Providing gamified activities to enhance community health and content creation in a fun way.'''.replace('  ', '')),
