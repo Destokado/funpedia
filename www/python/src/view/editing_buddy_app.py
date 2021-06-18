@@ -68,7 +68,7 @@ buddy_app.layout = html.Div([
     html.Br(),
 
     dcc.Loading(children=[html.Table(id='table')], type='circle'),
-    #html.Div(dbc.Spinner(html.Table(id='table')),
+    # html.Div(dbc.Spinner(html.Table(id='table')),
     html.Br(),
 
     dbc.Alert(id='err', color="warning", dismissable=True, is_open=False),
@@ -100,13 +100,10 @@ def build_table(n_clicks, username, languagecode, namespaces):
     # namespaces)
     if (len(data) == 0):
         return no_update, 'No data for User: {} in {}.wikipedia.org in namespace/s {}'.format(username, languagecode,
-                                                                                             namespaces),False
+                                                                                              namespaces), False
 
     dataframe = pd.DataFrame(data, columns=['User', 'Coincidences']).sort_values('Coincidences', ascending=False).head(
         10)
     print(dataframe)
 
-    return generate_table(dataframe), "",False
-
-
-
+    return generate_table(dataframe), "", False
