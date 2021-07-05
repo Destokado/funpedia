@@ -122,14 +122,16 @@ duel_app.layout = html.Div([
             placeholder='Enter the goal',
             debounce=True,
             style={'width': '190px'}
-        ), html.Br()
+        ),
     ],
+    html.Br(),
         style={'display': 'inline-block', 'width': '600px'}),
     html.Br(),
     html.Div([
         dcc.Input(id="start", placeholder='Start date (DD/MM/YYYY)'),
         dcc.Input(id="end", placeholder="End date (DD/MM/YYYY)")]
     ),
+    html.Br(),
     html.Div(
         html.A(html.Button('START DUEL'),
                id='button_start', style={'color': '#FFBD59'}),
