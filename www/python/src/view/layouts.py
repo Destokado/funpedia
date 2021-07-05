@@ -5,50 +5,49 @@ import sys
 
 sys.path.insert(0, '/www/python/src')
 
-external_stylesheets = [dbc.themes.LITERA]
-external_scripts = ['https://wdo-dev.wmcloud.org/assets/gtag.js']
-navbar = html.Div([
-    html.Br(),
-    dbc.Navbar(
+external_stylesheets = [dbc.themes.BOOTSTRAP]
+navbar = dbc.Navbar(
         [dbc.Collapse(
             dbc.Nav(
                 [
+                    html.A(
+                                # Use row and col to control vertical alignment of logo / brand
+                                dbc.Row(
+                                    [
+                                        dbc.Col(dbc.NavbarBrand("Funpedia", className="ml-2")),
+                                    ],
+                                    align="left",
+                                    no_gutters=True,
+
+
+                                ), href="/",
+
+                            ),
                     dbc.DropdownMenu(
                         [dbc.DropdownMenuItem("Find your Editing Buddy",
-                                              href="https://funpedia.toolforge.org/editing_buddy/"),
-                         dbc.DropdownMenuItem("Storytelling", href="https://funpedia.toolforge.org/storytelling/"),
+                                              href="/editing_buddy/",external_link=True,),
+                         dbc.DropdownMenuItem("Storytelling", href="/storytelling/",external_link=True,),
                          ],
                         label="Social Gamification",
                         nav=True,
                     ),
                     dbc.DropdownMenu(
-                        [dbc.DropdownMenuItem("Duel", href="https://funpedia.toolforge.org/duel/")
+                        [dbc.DropdownMenuItem("Duel", href="/duel/",external_link=True,)
                          ],
                         label="Content Gamification",
                         nav=True,
                     ),
-                    html.A(
-                        # Use row and col to control vertical alignment of logo / brand
-                        dbc.Row(
-                            [
-                                dbc.Col(html.Img(src= 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png', height="35px")),
-                                #
-                            ],
-                            align="center",
-                            no_gutters=True,
-                        ),
-                        href="https://github.com/Destokado/funpedia", target="_blank",
-                        style={'margin-left': "5px"}),
+
                 ], className="ml-auto", navbar=True),
             id="navbar-collapse2",
             navbar=True,
         ),
         ],
-        color="white",
+        color="#FFEACA",
         dark=False,
         className="ml-2",
-    ),
-])
+        sticky='top'
+    )
 footbar = html.Div([
     html.Br(),
     html.Br(),
@@ -113,7 +112,7 @@ namespaces_dict = {
 
 namespace_picker_multi = html.Div([
         html.Div(
-            html.P('Select the namespaces to include in your search '),
+            html.P('Select the namespaces '),
             style={'display': 'inline-block', 'width': '200px'}),
         html.Br(),
         html.Div(
@@ -122,7 +121,19 @@ namespace_picker_multi = html.Div([
                 options=[{'label': k, 'value': v} for k,v in namespaces_dict.items()],
                 value=0,
                 multi=True,
-                style={'width': '500px'}
-            ), style={'display': 'inline-block', 'width': '500px'}),
+                style={'width': '190px'}
+            ), style={'display': 'inline-block', 'width': '200px'}),
 
 ])
+
+def generate_table(dataframe, max_rows=10):
+    return html.Table([
+        html.Thead(
+            html.Tr([html.Th(col) for col in dataframe.columns])
+        ),
+        html.Tbody([
+            html.Tr([
+                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+            ]) for i in range(min(len(dataframe), max_rows))
+        ])
+    ])

@@ -244,3 +244,8 @@ _output
 www/python/src/model/apicache-py3/
 www/python/src/apicache-py3/
 www/python/src/config.yaml
+
+./.bash_history
+./.viminfo
+./.kube
+/.toolskube
