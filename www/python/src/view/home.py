@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, '/www/python/src')
 
 # SERVER
-from app import app as application
+from app import app as app
 # Dash
 from dash import Dash
 ##Assets
@@ -11,7 +11,7 @@ from view.layouts import *
 
 
 ### DASH APP
-home_app = Dash(__name__, server=application, url_base_pathname="/", external_stylesheets=external_stylesheets)
+home_app = Dash(__name__, server=app, url_base_pathname="/", external_stylesheets=external_stylesheets)
 home_app.config['suppress_callback_exceptions'] = True
 
 ### APP_LAYOUT

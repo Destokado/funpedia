@@ -9,7 +9,7 @@ from dash.dependencies import Input, State, Output
 sys.path.insert(0, '/www/python/src')
 
 # SERVER
-from app import app as application
+from app import app as app
 # Dash
 from dash import Dash
 # Pandas
@@ -20,7 +20,7 @@ from model.duel_model import insert_into, select_duels
 
 metrics_dict = {'Edit Count': 'edit_count'}
 
-duel_app = Dash(__name__, server=application, url_base_pathname="/duel/",
+duel_app = Dash(__name__, server=app, url_base_pathname="/duel/",
                 external_stylesheets=external_stylesheets)
 duel_app.config['suppress_callback_exceptions'] = True
 title = 'Duel '

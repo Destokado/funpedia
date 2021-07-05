@@ -3,14 +3,14 @@ import sys
 sys.path.insert(0, '/www/python/src')
 
 # SERVER
-from app import app as application
+from app import app as app
 # Dash
 from dash import Dash
 # Pandas
 ##Assets
 from view.layouts import *
 
-storytelling_app = Dash(__name__, server=application, url_base_pathname="/storytelling/",
+storytelling_app = Dash(__name__, server=app, url_base_pathname="/storytelling/",
                         external_stylesheets=external_stylesheets)
 storytelling_app.config['suppress_callback_exceptions'] = True
 title = 'Storytelling '

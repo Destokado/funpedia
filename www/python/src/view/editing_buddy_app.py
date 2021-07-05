@@ -5,7 +5,7 @@ sys.path.insert(0, '/www/python/src')
 from model.buddy_model import get_editing_buddy
 
 # SERVER
-from app import app as application
+from app import app as app
 # Dash
 from dash import Dash, no_update
 from dash.dependencies import Input, Output, State
@@ -14,7 +14,7 @@ import pandas as pd
 ##Assets
 from view.layouts import *
 
-buddy_app = Dash(__name__, server=application, url_base_pathname="/editing_buddy/",
+buddy_app = Dash(__name__, server=app, url_base_pathname="/editing_buddy/",
                  external_stylesheets=external_stylesheets)
 buddy_app.config['suppress_callback_exceptions'] = True
 title = 'Editing Buddy '
