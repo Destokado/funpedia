@@ -19,17 +19,6 @@ from view.layouts import *
 from model.duel_model import insert_into, select_duels
 
 metrics_dict = {'Edit Count': 'edit_count'}
-def fetch_duel():
-    data = select_duels(['user_name', 'user_wiki', 'rival_name', 'rival_wiki', 'metric', 'goal', 'start_date',
-                         'end_date', 'namespaces'])
-    df = pd.DataFrame(data, columns=['Username', 'Wikipedia', 'Rival', 'Rival Wikipedia', 'Metric', 'Goal',
-                                     'Start date', 'End date', 'Namespaces'])
-    print(df.head())
-    df['Start date'] = df['Start date'].apply(lambda x: datetime.utcfromtimestamp(x).date().strftime("%d/%m/%Y"))
-    df['End date'] = df['End date'].apply(lambda x: datetime.utcfromtimestamp(x).date().strftime("%d/%m/%Y"))
-    return dash_table.DataTable(columns=[{"name": i, "id": i} for i in df.columns],
-                                data=df.to_dict('records'), )
-
 
 duel_app = Dash(__name__, server=application, url_base_pathname="/duel/",
                 external_stylesheets=external_stylesheets)
@@ -118,7 +107,7 @@ duel_app.layout = html.Div([
                 id='metric',
                 options=[{'label': k, 'value': v} for k, v in metrics_dict.items()],
                 value=0,
-                multi=True,
+                multi=False,
                 style={'width': '190px'}
             ), style={'display': 'inline-block', 'width': '200px'}),
 
@@ -149,7 +138,7 @@ duel_app.layout = html.Div([
     html.Br(),
     html.H2('Duels'),
     html.Br(),
-    html.Div(dbc.Spinner(children=[fetch_duel()], type='default')),
+    html.Div(dbc.Spinner(children=[html.Table(id='current_duels')], type='default')),
     html.Br(),
     footbar, ], className="container")
 
@@ -186,7 +175,17 @@ def regiter_duel(n_clicks, username, languagecode, rival_username, rival_languag
     except Exception:
         return "Something went wrong", True
 
-    return "Inserted {} row in the database.".format(inserted), True
+    return "Inserted {} duel in the database.".format(inserted), True
 
 
-
+@duel_app.callback(Output('current_duels', 'children'), Input('button_start', 'n_clicks'))
+def fetch_duel(n_clicks):
+    data = select_duels(['user_name', 'user_wiki', 'rival_name', 'rival_wiki', 'metric', 'goal', 'start_date',
+                         'end_date', 'namespaces'])
+    df = pd.DataFrame(data, columns=['Username', 'Wikipedia', 'Rival', 'Rival Wikipedia', 'Metric', 'Goal',
+                                     'Start date', 'End date', 'Namespaces'])
+    print(df.head())
+    df['Start date'] = df['Start date'].apply(lambda x: datetime.utcfromtimestamp(x).date().strftime("%d/%m/%Y"))
+    df['End date'] = df['End date'].apply(lambda x: datetime.utcfromtimestamp(x).date().strftime("%d/%m/%Y"))
+    return dash_table.DataTable(columns=[{"name": i, "id": i} for i in df.columns],
+                                data=df.to_dict('records'), )
