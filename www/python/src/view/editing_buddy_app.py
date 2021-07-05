@@ -27,7 +27,7 @@ buddy_app.layout = html.Div([
     dcc.Markdown(
         "This page allows you to find the Editing Buddy of a Wikipedia user by entering the username, the Wikipedia "
         "Language edition and the namespaces where to look for edits.  "
-        "Your **Editing Buddy** is a contributor that has ever edited the same pages as you have. This applies to your last 100 edits."),
+        "Your **Editing Buddy** is a contributor that has ever edited the same pages as you have. This applies to your last 100 edits. It tries to eliminate bots from the counting process"),
     dcc.Markdown("* **What is your editing Buddy?**"),
     html.Div(
         html.P('Insert a username'),
@@ -61,6 +61,7 @@ buddy_app.layout = html.Div([
     ),
     html.Br(),
     namespace_picker_multi,
+    html.Br(),
     html.Div(
         html.A(html.Button('Query Results!'),
                id='button'),
@@ -68,12 +69,9 @@ buddy_app.layout = html.Div([
     html.Br(),
 
     dcc.Loading(children=[html.Table(id='table')], type='circle'),
-    # html.Div(dbc.Spinner(html.Table(id='table')),
     html.Br(),
 
     dbc.Alert(id='err', color="warning", dismissable=True, is_open=False),
-    html.Br(),
-
     html.Br(),
     footbar
 
